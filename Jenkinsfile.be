@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         NODE_ENV = 'production'
+        PATH = "$PATH:/usr/bin"
     }
 
     stages {
@@ -36,14 +37,39 @@ pipeline {
                 }
             }
         }
+
+        stage('Restart Backend (PM2)') {
+            steps {
+                sh '''
+                pm2 list || true
+
+                if pm2 describe be-app > /dev/null; then
+                    echo "Restarting backend..."
+                    pm2 restart be-app
+                else
+                    echo "Starting backend..."
+                    pm2 start ecosystem.config.js
+                fi
+                '''
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                sh '''
+                sleep 5
+                curl -f http://localhost:3000/health || exit 1
+                '''
+            }
+        }
     }
 
     post {
         success {
-            echo '✅ Backend pipeline succeeded'
+            echo '✅ Backend deployed & healthy'
         }
         failure {
-            echo '❌ Backend pipeline failed'
+            echo '❌ Backend deployment failed'
         }
     }
 }
