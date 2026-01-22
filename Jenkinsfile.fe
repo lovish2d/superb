@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'production'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir('FE') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('FE') {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Archive Build') {
+            steps {
+                archiveArtifacts artifacts: 'FE/dist/**', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Frontend pipeline succeeded'
+        }
+        failure {
+            echo '❌ Frontend pipeline failed'
+        }
+    }
+}
