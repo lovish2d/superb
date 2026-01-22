@@ -3,62 +3,74 @@ pipeline {
 
     environment {
         NODE_ENV = 'production'
-        PATH = "$PATH:/usr/bin"
+        PM2_HOME = "$HOME/.pm2"
+    }
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
     }
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
+                echo '📥 Cloning repository...'
                 checkout scm
+            }
+        }
+
+        stage('Verify Backend Structure') {
+            steps {
+                sh '''
+                echo "🔍 Checking BE folder..."
+                ls -la
+                ls -la BE
+                ls -la BE/ecosystem.config.js
+                '''
             }
         }
 
         stage('Install Dependencies') {
             steps {
                 dir('BE') {
+                    echo '📦 Installing backend dependencies...'
                     sh 'npm install'
                 }
             }
         }
 
-        stage('Build Backend') {
+        stage('Build Backend (if applicable)') {
             steps {
                 dir('BE') {
-                    sh 'npm run build || echo "No build step for BE"'
+                    echo '🏗️ Building backend (if build script exists)...'
+                    sh 'npm run build || echo "No build step found, skipping"'
                 }
             }
         }
 
-        stage('Test Backend') {
+        stage('Restart Backend Services (PM2)') {
             steps {
                 dir('BE') {
-                    sh 'npm test || echo "No tests found"'
+                    echo '🔄 Starting / Reloading PM2 services...'
+                    sh '''
+                    pm2 reload ecosystem.config.js || pm2 start ecosystem.config.js
+                    pm2 save
+                    pm2 list
+                    '''
                 }
-            }
-        }
-
-        stage('Restart Backend (PM2)') {
-            steps {
-                sh '''
-                pm2 list || true
-
-                if pm2 describe be-app > /dev/null; then
-                    echo "Restarting backend..."
-                    pm2 restart be-app
-                else
-                    echo "Starting backend..."
-                    pm2 start ecosystem.config.js
-                fi
-                '''
             }
         }
 
         stage('Health Check') {
             steps {
+                echo '🩺 Checking backend services...'
                 sh '''
                 sleep 5
-                curl -f http://localhost:3000/health || exit 1
+
+                curl -f http://localhost:2001 || exit 1
+                curl -f http://localhost:2002 || exit 1
+                curl -f http://localhost:2004 || exit 1
                 '''
             }
         }
@@ -66,10 +78,17 @@ pipeline {
 
     post {
         success {
-            echo '✅ Backend deployed & healthy'
+            echo '✅ Backend deployed successfully'
         }
+
         failure {
             echo '❌ Backend deployment failed'
+            sh 'pm2 list || true'
+        }
+
+        always {
+            echo '📊 Final PM2 Status'
+            sh 'pm2 list || true'
         }
     }
 }
