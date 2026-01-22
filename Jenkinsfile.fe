@@ -24,10 +24,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('FE') {
-                    sh '''
-                    export PATH=$PATH:$(pwd)/node_modules/.bin
-                    npm run build
-                    '''
+                    sh 'npx vite build --mode develop'
                 }
             }
         }
