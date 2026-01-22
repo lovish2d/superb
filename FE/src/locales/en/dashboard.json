@@ -1,0 +1,160 @@
+{
+  "add_user_modal": {
+    "title": "Add New User",
+    "subtitle": "Enter user details to add them to the platform",
+    "upload_image": "Upload Image",
+    "upload_helper": "PNG, JPG up to 5MB",
+    "error": {
+      "invalid_image": "Please select a PNG or JPG under 5MB."
+    },
+    "first_name_label": "First Name",
+    "first_name_placeholder": "Enter full name",
+    "last_name_label": "Last Name",
+    "last_name_placeholder": "Enter full name",
+    "phone_label": "Phone Number",
+    "email_label": "Email Address",
+    "division_label": "Division",
+    "department_label": "Department",
+    "country_label": "Country",
+    "pooling_center_label": "Pooling Center",
+    "add_user_btn": "Add User",
+    "cancel_btn": "Cancel",
+    "error": {
+      "generic": "Failed to register user. Please try again."
+    }
+  },
+  "title": "Dashboard",
+  "subtitle": "Welcome back! Here's what's happening today.",
+  "last_updated": "Last updated:",
+  "filters": {
+    "label": "Filters:",
+    "all_customers": "All Customers",
+    "all_countries": "All Countries",
+    "all_pooling_centers": "All Pooling Centers",
+    "all_types": "All Types",
+    "all_status": "All Status",
+    "clear_filters": "Clear filters",
+    "results": "results"
+  },
+  "stats": {
+    "total_active_stands": "Total Active Stands",
+    "active_leases": "Active Leases",
+    "maintenance_due": "Maintenance Due",
+    "alerts": "ALERTS"
+  },
+  "quick_actions": {
+    "title": "Quick Actions",
+    "add_new_stand": {
+      "title": "Add New Stand",
+      "description": "Register a new aircraft stand"
+    },
+    "schedule_maintenance": {
+      "title": "Schedule Maintenance",
+      "description": "Plan maintenance work"
+    },
+    "add_user": {
+      "title": "Add User",
+      "description": "Create new user account"
+    },
+    "generate_report": {
+      "title": "Generate Report",
+      "description": "Export analytics data"
+    }
+  },
+  "charts": {
+    "stands_by_type": {
+      "title": "Stands by Type",
+      "subtitle": "Distribution across categories",
+      "homebase": "Homebase",
+      "pool": "Pool",
+      "third_party": "Third-party"
+    },
+    "maintenance_load": {
+      "title": "Maintenance Load",
+      "subtitle": "Monthly maintenance activities",
+      "level_1": "Level 1",
+      "level_2": "Level 2",
+      "shockmount": "Shockmount"
+    }
+  },
+  "recent_activity": {
+    "title": "Recent Activity",
+    "subtitle": "Latest system events",
+    "all_activity": "All Activity"
+  },
+  "stands_overview": {
+    "title": "Stands Overview",
+    "subtitle": "A quick view of stand ownership, status, and activity.",
+    "all_categories": "All Categories",
+    "all_countries": "All Countries",
+    "all_companies": "All Companies"
+  },
+  "modals": {
+    "schedule_maintenance": {
+      "title": "Schedule Maintenance",
+      "subtitle": "Plan maintenance work for the stand",
+      "customer_label": "Customer",
+      "customer_placeholder": "Select Customer",
+      "location_label": "Location",
+      "location_placeholder": "Select Location",
+      "stand_label": "Stand",
+      "stand_placeholder": "Select Stand",
+      "set_date_label": "Set Date",
+      "set_date_placeholder": "mm/dd/yyyy",
+      "notes_label": "Notes",
+      "notes_placeholder": "Additional notes...",
+      "schedule_button": "Schedule",
+      "cancel_button": "Cancel"
+    },
+    "schedule_service": {
+      "title": "Schedule Maintenance",
+      "subtitle": "Plan maintenance work for equipment",
+      "equipment_id": "Equipment ID",
+      "equipment_id_placeholder": "e.g., S-CF34A-A001",
+      "maintenance_type": "Maintenance Type",
+      "maintenance_type_placeholder": "Select type...",
+      "scheduled_date": "Scheduled Date",
+      "scheduled_date_placeholder": "dd/mm/yyyy",
+      "estimated_duration": "Estimated Duration",
+      "estimated_duration_placeholder": "Select...",
+      "notes": "Notes",
+      "notes_placeholder": "Additional maintenance notes...",
+      "schedule_button": "Schedule"
+    },
+    "add_inspection": {
+      "title": "Add Inspection Report",
+      "subtitle": "Create a new equipment inspection report",
+      "equipment_id": "Equipment ID",
+      "equipment_id_placeholder": "e.g., S-CF34A-A001",
+      "inspection_type": "Inspection Type",
+      "inspection_type_placeholder": "Select type...",
+      "inspection_result": "Inspection Result",
+      "inspection_result_placeholder": "Select result...",
+      "inspector_name": "Inspector Name",
+      "inspector_name_placeholder": "Enter inspector name",
+      "findings_notes": "Findings & Notes",
+      "findings_notes_placeholder": "Document inspection findings...",
+      "create_button": "Create Report"
+    },
+    "generate_report": {
+      "title": "Generate Report",
+      "subtitle": "Export analytics and operational data",
+      "report_type_label": "Report Type",
+      "report_type_placeholder": "Select type...",
+      "country_label": "Country",
+      "country_placeholder": "Select Country",
+      "city_label": "City",
+      "city_placeholder": "Select City",
+      "based_on_label": "Based On",
+      "based_on_placeholder": "By Customer",
+      "customer_label": "Customer",
+      "customer_placeholder": "Select Customer",
+      "start_date_label": "Start Date",
+      "start_date_placeholder": "mm/dd/yyyy",
+      "end_date_label": "End Date",
+      "end_date_placeholder": "mm/dd/yyyy",
+      "generate_button": "Generate Report",
+      "cancel_button": "Cancel"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "welcome": "مرحباً بعودتك",
+  "overview": "نظرة عامة",
+  "statistics": "الإحصائيات",
+  "recent_activity": "النشاط الأخير",
+  "quick_actions": "الإجراءات السريعة",
+  "customer": {
+    "total_requests": "إجمالي الطلبات",
+    "pending_requests": "الطلبات المعلقة",
+    "completed_requests": "الطلبات المكتملة",
+    "active_equipment": "المعدات النشطة"
+  },
+  "platform": {
+    "total_customers": "إجمالي العملاء",
+    "active_services": "الخدمات النشطة",
+    "available_equipment": "المعدات المتاحة",
+    "technicians_online": "الفنيون المتصلون"
+  }
+}

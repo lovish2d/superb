@@ -1,0 +1,732 @@
+{
+	"info": {
+		"_postman_id": "superb-platform-api-tests",
+		"name": "Superb Platform API Tests",
+		"description": "Complete API test flow: Super Admin Login → Create Platform Admin → Onboard Organization → Create Customer User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Login as Super Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has access token\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('accessToken');",
+							"    pm.expect(jsonData.data).to.have.property('refreshToken');",
+							"    ",
+							"    // Store tokens for subsequent requests",
+							"    pm.environment.set('superAdminToken', jsonData.data.accessToken);",
+							"    pm.environment.set('superAdminRefreshToken', jsonData.data.refreshToken);",
+							"    pm.environment.set('superAdminUserId', jsonData.data.user._id || jsonData.data.user.userId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{superAdminEmail}}\",\n  \"password\": \"{{superAdminPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Platform Roles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has platform roles\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('roles');",
+							"    ",
+							"    // Find admin role",
+							"    const adminRole = jsonData.data.roles.find(r => r.name === 'admin');",
+							"    if (adminRole) {",
+							"        // Handle both ObjectId object and string formats",
+							"        const roleId = adminRole._id ? (adminRole._id.$oid || adminRole._id.toString() || adminRole._id) : adminRole.id;",
+							"        pm.environment.set('platformAdminRoleId', roleId.toString());",
+							"        console.log('Set platformAdminRoleId:', roleId.toString());",
+							"    } else {",
+							"        console.error('Admin role not found. Available roles:', jsonData.data.roles.map(r => r.name));",
+							"    }",
+							"    ",
+							"    // Find super_admin role (if needed)",
+							"    const superAdminRole = jsonData.data.roles.find(r => r.name === 'super_admin');",
+							"    if (superAdminRole) {",
+							"        const roleId = superAdminRole._id ? (superAdminRole._id.$oid || superAdminRole._id.toString() || superAdminRole._id) : superAdminRole.id;",
+							"        pm.environment.set('superAdminRoleId', roleId.toString());",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{superAdminToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{platformBaseUrl}}/api/v1/roles?scope=platform&isActive=true",
+					"host": [
+						"{{platformBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"roles"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "platform"
+						},
+						{
+							"key": "isActive",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Create Platform Admin User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Platform admin user created\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('user');",
+							"    pm.expect(jsonData.data.user.email).to.equal('platform.admin@platform.com');",
+							"    pm.expect(jsonData.data.user.userType).to.equal('platform_owner');",
+							"    ",
+							"    pm.environment.set('platformAdminEmail', jsonData.data.user.email);",
+							"    pm.environment.set('platformAdminUserId', jsonData.data.user._id || jsonData.data.user.userId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"platform.admin@platform.com\",\n  \"password\": \"Admin123!\",\n  \"firstName\": \"Platform\",\n  \"lastName\": \"Admin\",\n  \"userType\": \"platform_owner\",\n  \"roleIds\": [\"{{platformAdminRoleId}}\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Login as Platform Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has access token\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('accessToken');",
+							"    ",
+							"    // Store platform admin token",
+							"    pm.environment.set('platformAdminToken', jsonData.data.accessToken);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"platform.admin@platform.com\",\n  \"password\": \"Admin123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Onboard Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Organization onboarded successfully\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('organization');",
+							"    pm.expect(jsonData.data).to.have.property('adminUser');",
+							"    ",
+							"    // Store organization and admin user info",
+							"    pm.environment.set('organizationId', jsonData.data.organization._id);",
+							"    pm.environment.set('organizationCode', jsonData.data.organization.code);",
+							"    pm.environment.set('orgAdminEmail', jsonData.data.adminUser.email);",
+							"    pm.environment.set('orgAdminUserId', jsonData.data.adminUser._id || jsonData.data.adminUser.userId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{platformAdminToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"organization\": {\n    \"name\": \"Acme Logistics\",\n    \"type\": \"logistics\",\n    \"code\": \"ACME\",\n    \"email\": \"contact@acme.com\",\n    \"phone\": \"+1234567890\",\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"New York\",\n      \"state\": \"NY\",\n      \"country\": \"USA\",\n      \"zipCode\": \"10001\"\n    }\n  },\n  \"adminUser\": {\n    \"email\": \"admin@acme.com\",\n    \"password\": \"AcmeAdmin123!\",\n    \"firstName\": \"Acme\",\n    \"lastName\": \"Admin\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{platformBaseUrl}}/api/v1/admin/onboard-organization",
+					"host": [
+						"{{platformBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"onboard-organization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get Organization Roles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has organization roles\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('roles');",
+							"    ",
+							"    // Find viewer role for customer user",
+							"    const viewerRole = jsonData.data.roles.find(r => r.name === 'viewer');",
+							"    if (viewerRole) {",
+							"        const roleId = viewerRole._id || viewerRole.id;",
+							"        pm.environment.set('viewerRoleId', roleId.toString());",
+							"        console.log('Set viewerRoleId:', roleId.toString());",
+							"    } else {",
+							"        console.error('Viewer role not found in response');",
+							"    }",
+							"    ",
+							"    // Also store org_admin role ID if needed",
+							"    const orgAdminRole = jsonData.data.roles.find(r => r.name === 'org_admin');",
+							"    if (orgAdminRole) {",
+							"        const roleId = orgAdminRole._id || orgAdminRole.id;",
+							"        pm.environment.set('orgAdminRoleId', roleId.toString());",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{platformAdminToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{platformBaseUrl}}/api/v1/roles?scope=organization&organizationId={{organizationId}}&isActive=true",
+					"host": [
+						"{{platformBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"roles"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "organization"
+						},
+						{
+							"key": "organizationId",
+							"value": "{{organizationId}}"
+						},
+						{
+							"key": "isActive",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Login as Organization Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has access token\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('accessToken');",
+							"    ",
+							"    // Store org admin token",
+							"    pm.environment.set('orgAdminToken', jsonData.data.accessToken);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{orgAdminEmail}}\",\n  \"password\": \"AcmeAdmin123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Create Customer User under Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Customer user created successfully\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('user');",
+							"    pm.expect(jsonData.data.user.email).to.equal('customer@acme.com');",
+							"    pm.expect(jsonData.data.user.userType).to.equal('customer');",
+							"    pm.expect(jsonData.data.user.organizationId).to.equal(pm.environment.get('organizationId'));",
+							"    ",
+							"    pm.environment.set('customerEmail', jsonData.data.user.email);",
+							"    pm.environment.set('customerUserId', jsonData.data.user._id || jsonData.data.user.userId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"customer@acme.com\",\n  \"password\": \"Customer123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Customer\",\n  \"userType\": \"customer\",\n  \"organizationId\": \"{{organizationId}}\",\n  \"roleIds\": [\"{{viewerRoleId}}\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Login as Customer User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Customer user logged in successfully\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('accessToken');",
+							"    pm.expect(jsonData.data.user.userType).to.equal('customer');",
+							"    ",
+							"    pm.environment.set('customerToken', jsonData.data.accessToken);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{customerEmail}}\",\n  \"password\": \"Customer123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Get Customer User Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Profile retrieved successfully\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('email');",
+							"    pm.expect(jsonData.data.userType).to.equal('customer');",
+							"    pm.expect(jsonData.data.organizationId).to.exist;",
+							"    pm.expect(jsonData.data.roles).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{customerToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/auth/profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Get Organization Details (as Customer User)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Organization details retrieved\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('name');",
+							"    pm.expect(jsonData.data.code).to.equal('ACME');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{customerToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{platformBaseUrl}}/api/v1/organizations/{{organizationId}}",
+					"host": [
+						"{{platformBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"organizations",
+						"{{organizationId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. Get System Stats (as Platform Admin)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"System stats retrieved\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('organizations');",
+							"    pm.expect(jsonData.data).to.have.property('users');",
+							"    pm.expect(jsonData.data.users.total).to.be.at.least(3);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{platformAdminToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{platformBaseUrl}}/api/v1/admin/stats",
+					"host": [
+						"{{platformBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"admin",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001",
+			"type": "string"
+		},
+		{
+			"key": "platformBaseUrl",
+			"value": "http://localhost:3002",
+			"type": "string"
+		},
+		{
+			"key": "superAdminEmail",
+			"value": "admin@platform.com",
+			"type": "string"
+		},
+		{
+			"key": "superAdminPassword",
+			"value": "ChangeMe123!",
+			"type": "string"
+		}
+	]
+}
+

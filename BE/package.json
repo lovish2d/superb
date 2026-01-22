@@ -1,0 +1,48 @@
+{
+  "name": "superb-backend",
+  "version": "1.0.0",
+  "description": "Multi-service monorepo backend for resource pooling platform",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "services/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "install:all": "node scripts/install-all.js",
+    "install:all:bash": "bash scripts/install-all.sh",
+    "install:services": "npm install --workspaces",
+    "start:dev": "pm2 start ecosystem.config.js --env development",
+    "start:prod": "pm2 start ecosystem.config.js --env production",
+    "stop": "pm2 stop ecosystem.config.js",
+    "restart": "pm2 restart ecosystem.config.js",
+    "logs": "pm2 logs",
+    "delete": "pm2 delete ecosystem.config.js",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up -d",
+    "docker:dev:down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:ecr:build": "node scripts/build-and-push-ecr.js",
+    "docker:ecr:build:bash": "bash scripts/build-and-push-ecr.sh",
+    "init:platform": "node scripts/init-platform.js"
+  },
+  "keywords": [
+    "monorepo",
+    "microservices",
+    "resource-pooling",
+    "superb"
+  ],
+  "author": "superb",
+  "license": "MIT",
+  "devDependencies": {
+    "pm2": "^5.3.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}

@@ -1,0 +1,98 @@
+{
+	"id": "superb-platform-env",
+	"name": "Superb Platform - Local",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "platformBaseUrl",
+			"value": "http://localhost:3002",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "superAdminEmail",
+			"value": "admin@platform.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "superAdminPassword",
+			"value": "ChangeMe123!",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "superAdminToken",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "platformAdminToken",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "orgAdminToken",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "customerToken",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "organizationId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "organizationCode",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "platformAdminRoleId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "viewerRoleId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "orgAdminRoleId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "orgAdminEmail",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerEmail",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment"
+}
+

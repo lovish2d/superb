@@ -1,0 +1,19 @@
+{
+  "customer": {
+    "dashboard": "لوحة التحكم",
+    "service_requests": "طلبات الخدمة",
+    "equipment": "المعدات",
+    "reports": "التقارير",
+    "settings": "الإعدادات"
+  },
+  "platform": {
+    "dashboard": "لوحة التحكم",
+    "customers": "العملاء",
+    "service_management": "إدارة الخدمات",
+    "equipment_inventory": "مخزون المعدات",
+    "stands_management": "إدارة المنصات",
+    "users": "المستخدمون",
+    "analytics": "التحليلات",
+    "settings": "الإعدادات"
+  }
+}

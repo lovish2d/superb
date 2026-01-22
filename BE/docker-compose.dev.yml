@@ -1,0 +1,45 @@
+version: '3.8'
+
+# Development docker-compose file
+# Usage: docker-compose -f docker-compose.dev.yml up
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: superb-mongodb-dev
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: superb_db
+    volumes:
+      - mongodb_data_dev:/data/db
+      - mongodb_config_dev:/data/configdb
+    networks:
+      - superb-network-dev
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: superb-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_dev:/data
+    networks:
+      - superb-network-dev
+
+volumes:
+  mongodb_data_dev:
+    driver: local
+  mongodb_config_dev:
+    driver: local
+  redis_data_dev:
+    driver: local
+
+networks:
+  superb-network-dev:
+    driver: bridge
+

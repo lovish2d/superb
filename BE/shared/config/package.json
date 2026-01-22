@@ -1,0 +1,13 @@
+{
+  "name": "@superb/shared-config",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shared configuration for superb backend services",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
+

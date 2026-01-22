@@ -1,0 +1,263 @@
+{
+  "page": {
+    "title": "Overview",
+    "subtitle": "Monitor and manage stands"
+  },
+  "breadcrumb": {
+    "stand_registry": "Stand Registry",
+    "stands": "Stands",
+    "overview": "Overview"
+  },
+  "header": {
+    "export": "Export",
+    "all_stands": "All Stands",
+    "add_stand": "Add Stand"
+  },
+  "tabs": {
+    "all_stands": "All Stands",
+    "available": "Available",
+    "in_use": "In Use",
+    "in_transit": "In Transit",
+    "maintenance": "Maintenance",
+    "new_listed": "New Listed",
+    "deactivated": "Deactivated"
+  },
+  "filters": {
+    "all_categories": "All Stand Types",
+    "all_countries": "All Countries",
+    "all_cities": "All Cities",
+    "recently_added": "Recently Added",
+    "search_placeholder": "Search Stands.."
+  },
+  "table": {
+    "stand_id": "Stand ID",
+    "stand_type": "Stand Type",
+    "stand_measurement": "Stand Measurement",
+    "oem_engine": "OEM/Engine",
+    "engine_compatibility": "Engine Compatibility",
+    "engine_status": "Engine Status",
+    "customer": "Customer",
+    "status": "Status",
+    "action": "Action"
+  },
+  "modals": {
+    "add_stand": {
+      "title": "Add Stand",
+      "subtitle": "Add a new aircraft engine stand.",
+      "sections": {
+        "stand_image": "Stand Image",
+        "identity_registration": "Identity & Stand Registration (SR)",
+        "location_pooling": "Location & Pooling Center",
+        "base_cradle": "Base & Cradle Components",
+        "physical_dimensions": "Physical Dimensions (Dynamic Based on Engine Status)",
+        "specifications": "Specifications / Details",
+        "attachments": "Attachments"
+      },
+      "fields": {
+        "stand_image": "Stand Image",
+        "stand_image_upload": "Click to upload stand image",
+        "stand_image_format": "PNG, JPG up to 10MB",
+        "engine_type": "Engine Type",
+        "engine_type_placeholder": "Select Engine Type",
+        "stand_oem_manufacturer": "Stand OEM Manufacturer",
+        "stand_oem_placeholder": "Select OEM",
+        "ownership_status": "Ownership Status",
+        "ownership_status_placeholder": "Purchased new",
+        "engine_oem_auto": "Engine OEM (Auto)",
+        "engine_status": "Engine Status",
+        "engine_status_placeholder": "○ Without Engine",
+        "tracking_id": "Tracking ID (IoT)",
+        "tracking_id_placeholder": "TRK-XXXXXXXX",
+        "generate": "Generate",
+        "other_compatible_engines": "Other Compatible Engines",
+        "other_compatible_engines_placeholder": "Select Engines",
+        "country": "Country",
+        "country_placeholder": "Select Country",
+        "city": "City",
+        "city_placeholder": "Select City",
+        "pooling_center": "Pooling Center",
+        "pooling_center_placeholder": "Select Pooling Center",
+        "category": "Category",
+        "category_placeholder": "Homebase",
+        "base_part_number": "Base Part Number",
+        "base_part_number_placeholder": "e.g., DED-CF56-BASE-001",
+        "base_serial_number": "Base Serial Number",
+        "base_serial_number_placeholder": "e.g., BSN-2024-00123",
+        "cradle_part_number": "Cradle Part Number",
+        "cradle_part_number_placeholder": "e.g., DED-CF56-CRADLE-001",
+        "cradle_serial_number": "Cradle Serial Number",
+        "cradle_serial_number_placeholder": "e.g., DED-CF56-CRADLE-001",
+        "manufacture_date": "Manufacture Date",
+        "manufacture_date_placeholder": "mm/dd/yyyy",
+        "length": "Length (mm)",
+        "length_placeholder": "e.g., 2500",
+        "width": "Width (mm)",
+        "width_placeholder": "e.g., 1200",
+        "height": "Height (mm)",
+        "height_placeholder": "e.g., 1800",
+        "weight": "Weight (kg)",
+        "weight_placeholder": "e.g., 850",
+        "specifications_placeholder": "Add technical specifications, configuration details, etc.",
+        "attachments_upload": "Click to upload or drag and drop",
+        "attachments_format": "PDF, Images, Documents (max 10MB each)"
+      },
+      "tabs": {
+        "without_engine": "○ Without Engine",
+        "with_engine": "✓ With Engine"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "register_stand": "Register Stand"
+      },
+      "validation": {
+        "engine_type_required": "Engine type is required",
+        "stand_oem_required": "Stand OEM manufacturer is required",
+        "ownership_status_required": "Ownership status is required",
+        "engine_status_required": "Engine status is required",
+        "country_required": "Country is required",
+        "city_required": "City is required",
+        "pooling_center_required": "Pooling center is required",
+        "category_required": "Category is required",
+        "base_part_number_required": "Base part number is required",
+        "base_serial_number_required": "Base serial number is required",
+        "cradle_part_number_required": "Cradle part number is required",
+        "cradle_serial_number_required": "Cradle serial number is required"
+      }
+    }
+  },
+  "detail": {
+    "page_title": "Stand Detail",
+    "breadcrumb": {
+      "stands": "Stands",
+      "overview": "Overview"
+    },
+    "header": {
+      "unassigned": "Unassigned",
+      "track_stand": "Track Stand",
+      "schedule_maintenance": "Schedule Maintenance",
+      "deploy_to_customer": "Deploy to Customer"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "technical": "Technical",
+      "maintenance": "Maintenance",
+      "timeline": "Timeline"
+    },
+    "status": {
+      "available": "Available",
+      "in_use": "In Use",
+      "in_transit": "In Transit",
+      "maintenance": "Maintenance",
+      "new_listed": "New Listed",
+      "deactivated": "Deactivated"
+    },
+    "stand_details": {
+      "title": "Stand Details",
+      "superb_stand_id": "Superb Stand ID",
+      "manufacture_date": "Manufacture Date",
+      "tracking_equipment_id": "Tracking Equipment ID",
+      "stand_age": "Stand Age",
+      "color": "Color",
+      "stackable_for_storage": "Stackable for Storage",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "stand_status": {
+      "title": "Stand Status",
+      "registration_date": "Registration Date",
+      "shock_mounts_manufacture_date": "Shock Mounts Manufacture Date",
+      "last_maintenance": "Last Maintenance",
+      "shock_mounts_expiry_date": "Shock Mounts Expiry Date",
+      "next_maintenance": "Next Maintenance",
+      "next_shock_mount_replacement": "Next Shock Mount Replacement"
+    },
+    "technical": {
+      "tracker_id": "Tracker ID",
+      "ping_history": "Ping History",
+      "tracker_status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "battery": "Battery",
+      "battery_status": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "low": "Low",
+        "critical": "Critical"
+      },
+      "temperature": "Temperature",
+      "temperature_status": {
+        "normal": "Normal Range",
+        "high": "High",
+        "low": "Low"
+      },
+      "shock_mount_life": "Shock Mount Life",
+      "shock_mount_status": {
+        "pool_use_only": "Pool Use Only",
+        "customer_use": "Customer Use",
+        "expired": "Expired"
+      },
+      "uptime": "Uptime",
+      "days": "days",
+      "hours": "hours",
+      "signals": "signals",
+      "stand_configuration": {
+        "title": "Stand Configuration",
+        "subtitle": "Base, cradle, and engine compatibility details"
+      },
+      "stand_engine_details": {
+        "title": "Stand and Engine Details"
+      },
+      "stand_oem": "Stand OEM",
+      "engine_type_oem": "Engine Type / Engine OEM",
+      "structure": {
+        "title": "Structure"
+      },
+      "base_unit": "Base Unit",
+      "cradle_unit": "Cradle Unit",
+      "part_no": "Part No.",
+      "serial_no": "Serial No.",
+      "compatible_aircrafts": "Compatible Aircrafts",
+      "physical_specifications": {
+        "title": "Physical Specifications",
+        "subtitle": "Dimensions based on engine status"
+      },
+      "with_engine": "With Engine Onboard",
+      "without_engine": "Without Engine Onboard",
+      "dimensions": "Dimensions (L×W×H)",
+      "weight": "Weight",
+      "engine_status": {
+        "empty": "Empty Stand",
+        "occupied": "With Engine"
+      }
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "subtitle": "Complete maintenance and service records",
+      "this_month": "This Month",
+      "history": "History",
+      "upcoming": "Upcoming",
+      "requested_by": "Requested By",
+      "performed_by": "Performed By",
+      "images_attached": "images attached",
+      "status": {
+        "completed": "Completed",
+        "pending": "Pending",
+        "in_progress": "In Progress"
+      }
+    },
+    "timeline": {
+      "title": "Timeline",
+      "subtitle": "Complete chronological history of stand lifecycle events",
+      "this_month": "This Month",
+      "event_type": {
+        "deployment": "Deployment",
+        "maintenance": "Maintenance",
+        "inspection": "Inspection",
+        "status_change": "Status Change",
+        "assignment": "Assignment"
+      }
+    }
+  }
+}
+

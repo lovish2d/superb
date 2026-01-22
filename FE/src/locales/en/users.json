@@ -1,0 +1,54 @@
+{
+  "page": {
+    "title": "SUPERB MAP Users",
+    "subtitle": "Manage platform users, permissions, and access across all divisions"
+  },
+  "header": {
+    "export": "Export",
+    "add_user": "Add User"
+  },
+  "stats": {
+    "total_users": "Total users",
+    "active_users": "Active users",
+    "pending_approval": "pending approval",
+    "operations": "operations"
+  },
+  "tabs": {
+    "all_users": "All users",
+    "new_requests": "New Requests"
+  },
+  "filters": {
+    "search_placeholder": "Search users by name or email...",
+    "all_countries": "All Countries",
+    "all_pooling_centers": "All Pooling Centers",
+    "all_users": "All Users"
+  },
+  "table": {
+    "headers": {
+      "user": "User",
+      "division_role": "Division & Role",
+      "country": "Country",
+      "contact": "Contact",
+      "status": "Status",
+      "last_login": "Last Login",
+      "action": "Action",
+      "location": "Location",
+      "requested_date": "Requested date",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "footer": {
+      "showing": "Showing",
+      "users": "Users"
+    }
+  }
+}
+
