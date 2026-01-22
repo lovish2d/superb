@@ -24,14 +24,19 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('FE') {
-                    sh 'npm run build'
+                    sh '''
+                    export PATH=$PATH:$(pwd)/node_modules/.bin
+                    npm run build
+                    '''
                 }
             }
         }
 
         stage('Archive Build') {
             steps {
-                archiveArtifacts artifacts: 'FE/dist/**', fingerprint: true
+                dir('FE') {
+                    archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                }
             }
         }
     }
